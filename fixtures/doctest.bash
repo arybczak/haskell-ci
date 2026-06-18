@@ -449,7 +449,7 @@ run_cmd cabal-plan --version
 # install doctest
 put_info "install doctest"
 # install doctest
-run_cmd_if $((! GHCJSARITH)) $CABAL v2-install $ARG_COMPILER --ignore-project -j doctest --constraint='doctest ^>=0.22.0'
+run_cmd_if $((! GHCJSARITH)) $CABAL v2-install $ARG_COMPILER --ignore-project -j doctest --constraint='doctest ^>=0.25.0'
 run_cmd_if $((! GHCJSARITH)) doctest --version
 
 # initial cabal.project for sdist

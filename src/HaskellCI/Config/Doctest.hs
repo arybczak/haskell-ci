@@ -34,7 +34,7 @@ initialDoctestConfig :: DoctestConfig
 initialDoctestConfig = DoctestConfig
     { cfgDoctestEnabled       = noVersion
     , cfgDoctestOptions       = []
-    , cfgDoctestVersion       = majorBoundVersion (mkVersion [0,22,0])
+    , cfgDoctestVersion       = majorBoundVersion (mkVersion [0,25,0])
     , cfgDoctestFilterEnvPkgs = []
     , cfgDoctestFilterSrcPkgs = []
     }

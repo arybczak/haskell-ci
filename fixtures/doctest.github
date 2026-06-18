@@ -427,7 +427,7 @@ jobs:
       - name: cache (tools)
         uses: actions/cache/restore@v5
         with:
-          key: ${{ runner.os }}-${{ matrix.compiler }}-tools-cc3c62c0
+          key: ${{ runner.os }}-${{ matrix.compiler }}-tools-bcdb281b
           path: ~/.haskell-ci-tools
       - name: install cabal-plan
         run: |
@@ -440,13 +440,13 @@ jobs:
           cabal-plan --version
       - name: install doctest
         run: |
-          if [ $((! GHCJSARITH)) -ne 0 ] ; then $CABAL --store-dir=$HOME/.haskell-ci-tools/store v2-install $ARG_COMPILER --ignore-project -j2 doctest --constraint='doctest ^>=0.22.0' ; fi
+          if [ $((! GHCJSARITH)) -ne 0 ] ; then $CABAL --store-dir=$HOME/.haskell-ci-tools/store v2-install $ARG_COMPILER --ignore-project -j2 doctest --constraint='doctest ^>=0.25.0' ; fi
           if [ $((! GHCJSARITH)) -ne 0 ] ; then doctest --version ; fi
       - name: save cache (tools)
         if: always()
         uses: actions/cache/save@v5
         with:
-          key: ${{ runner.os }}-${{ matrix.compiler }}-tools-cc3c62c0
+          key: ${{ runner.os }}-${{ matrix.compiler }}-tools-bcdb281b
           path: ~/.haskell-ci-tools
       - name: checkout
         uses: actions/checkout@v7
