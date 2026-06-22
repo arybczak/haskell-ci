@@ -55,6 +55,7 @@ initialConfig = Config
     , cfgProjectName         = Nothing
     , cfgGhcHead             = False
     , cfgPostgres            = False
+    , cfgPostgresVersion     = 18
     , cfgGoogleChrome        = False
     , cfgEnv                 = mempty
     , cfgAllowFailures       = noVersion

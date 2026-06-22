@@ -60,6 +60,7 @@ data Config = Config
     , cfgProjectName         :: Maybe String
     , cfgGhcHead             :: !Bool
     , cfgPostgres            :: !Bool
+    , cfgPostgresVersion     :: !Natural
     , cfgGoogleChrome        :: !Bool
     , cfgEnv                 :: M.Map Version String
     , cfgAllowFailures       :: !VersionRange

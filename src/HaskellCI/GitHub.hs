@@ -548,7 +548,7 @@ makeGitHub _argv config@Config {..} gitconfig prj jobs@JobVersions {..} = do
                 , ghjContainer       = Just $ "buildpack-deps:" ++ ubuntuVer
                 , ghjContinueOnError = Just "${{ matrix.allow-failure }}"
                 , ghjServices        = mconcat
-                    [ Map.singleton "postgres" postgresService | cfgPostgres ]
+                    [ Map.singleton "postgres" (postgresService cfgPostgresVersion) | cfgPostgres ]
                 , ghjTimeout         = max 10 cfgTimeoutMinutes
                 , ghjMatrix          = concat $
                     -- we can have multiple setup methods for the same
@@ -680,9 +680,9 @@ makeGitHub _argv config@Config {..} gitconfig prj jobs@JobVersions {..} = do
     actionsCheckout :: String
     actionsCheckout = "actions/checkout@v7"
 
-postgresService :: GitHubService
-postgresService = GitHubService
-    { ghServImage   = "postgres:14"
+postgresService :: Natural -> GitHubService
+postgresService version = GitHubService
+    { ghServImage   = "postgres:" ++ show version
     , ghServOptions = Just "--health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5"
     , ghServEnv     = Map.fromList
           [ ("POSTGRES_PASSWORD", "postgres")

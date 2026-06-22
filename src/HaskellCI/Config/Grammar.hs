@@ -136,6 +136,8 @@ configGrammar = Config
         ^^^ help "Add ghc-head job"
     <*> booleanFieldDef     "postgresql"                                                    (field @"cfgPostgres") defaultConfig
         ^^^ help "Add postgresql service"
+    <*> optionalFieldDef    "postgresql-version"                                            (field @"cfgPostgresVersion") defaultConfig
+        ^^^ metahelp "VERSION" "Major version of the postgresql service image"
     <*> booleanFieldDef     "google-chrome"                                                 (field @"cfgGoogleChrome") defaultConfig
         ^^^ help "Add google-chrome service"
     <*> monoidalFieldAla    "env"                       Env                                 (field @"cfgEnv")
