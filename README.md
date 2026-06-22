@@ -13,7 +13,7 @@ and `cabal-install`.
 * Step 1: Clone and install this project in/from any directory
 
     ```bash
-    $ git clone https://github.com/haskell-CI/haskell-ci.git
+    $ git clone https://github.com/arybczak/haskell-ci.git
     $ cd haskell-ci
     $ cabal install haskell-ci:exe:haskell-ci
     ```

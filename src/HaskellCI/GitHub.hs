@@ -71,7 +71,7 @@ githubHeader insertVersion argv =
     , ""
     , "  haskell-ci regenerate"
     , ""
-    , "For more information, see https://github.com/haskell-CI/haskell-ci"
+    , "For more information, see https://github.com/arybczak/haskell-ci"
     , ""
     ] ++
     verlines ++
@@ -765,20 +765,20 @@ cat path contents = sh $ catCmd path contents
 -- | GitHub is very lenient and undocumented. We accept something.
 -- Please, write a patch, if you need an extra scheme to be accepted.
 --
--- >>> parseGitHubRepo "git@github.com:haskell-CI/haskell-ci.git"
--- Just "haskell-CI/haskell-ci"
+-- >>> parseGitHubRepo "git@github.com:arybczak/haskell-ci.git"
+-- Just "arybczak/haskell-ci"
 --
--- >>> parseGitHubRepo "git@github.com:haskell-CI/haskell-ci"
--- Just "haskell-CI/haskell-ci"
+-- >>> parseGitHubRepo "git@github.com:arybczak/haskell-ci"
+-- Just "arybczak/haskell-ci"
 --
--- >>> parseGitHubRepo "https://github.com/haskell-CI/haskell-ci.git"
--- Just "haskell-CI/haskell-ci"
+-- >>> parseGitHubRepo "https://github.com/arybczak/haskell-ci.git"
+-- Just "arybczak/haskell-ci"
 --
--- >>> parseGitHubRepo "https://github.com/haskell-CI/haskell-ci"
--- Just "haskell-CI/haskell-ci"
+-- >>> parseGitHubRepo "https://github.com/arybczak/haskell-ci"
+-- Just "arybczak/haskell-ci"
 --
--- >>> parseGitHubRepo "git://github.com/haskell-CI/haskell-ci"
--- Just "haskell-CI/haskell-ci"
+-- >>> parseGitHubRepo "git://github.com/arybczak/haskell-ci"
+-- Just "arybczak/haskell-ci"
 --
 parseGitHubRepo :: Text -> Maybe Text
 parseGitHubRepo t =
