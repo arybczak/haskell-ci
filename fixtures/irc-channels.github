@@ -18,6 +18,9 @@ on:
   - pull_request
   - merge_group
   - workflow_dispatch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   irc:
     name: Haskell-CI (IRC notification)

@@ -87,6 +87,10 @@ instance ToYaml GitHub where
     toYaml GitHub {..} = ykeyValuesFilt []
         [ "name" ~> fromString ghName
         , "on"   ~> toYaml ghOn
+        , "concurrency" ~> ykeyValuesFilt []
+            [ "group"              ~> fromString "${{ github.workflow }}-${{ github.ref }}"
+            , "cancel-in-progress" ~> YBool [] True
+            ]
         , "jobs" ~> ykeyValuesFilt []
             [ ([], j, toYaml job)
             | (j, job) <- M.toList ghJobs
