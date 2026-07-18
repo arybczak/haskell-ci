@@ -117,6 +117,8 @@ configHistory =
             }
     , ver 0 19 20250104 := \cfg -> cfg
         & field @"cfgHeadHackage" .~ C.orLaterVersion (C.mkVersion [9,15])
+    , ver 0 19 20260718 := \cfg -> cfg
+        & field @"cfgUbuntu" .~ Resolute
     ]
   where
     ver x y z = [x, y, z]

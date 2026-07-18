@@ -1,9 +1,9 @@
 -- Most settings can be given as command line arguments
 -- Config file is convenient if you maintain large amount of packages
 
--- Supported: xenial, bionic, focal.
+-- Supported: xenial, bionic, focal, jammy, noble, resolute.
 -- Bionic is a default.
-distribution: jammy
+distribution: resolute
 
 -- list of extra apt packages to be installed
 -- apt: foo bar
