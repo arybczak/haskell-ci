@@ -233,9 +233,9 @@ jobs:
           active-repositories: hackage.haskell.org, head.hackage.ghc.haskell.org:override
           EOF
           fi
+          if [ $((HCNUMVER > 81007)) -ne 0 ] ; then echo "semaphore: True" >> $CABAL_CONFIG ; fi
           cat >> $CABAL_CONFIG <<EOF
-          program-default-options
-            ghc-options: $GHCJOBS +RTS -M3G -RTS
+          jobs: 4
           EOF
           cat $CABAL_CONFIG
       - name: versions
@@ -316,6 +316,14 @@ jobs:
           if [ $((HCNUMVER > 81007)) -ne 0 ] ; then echo "    ghc-options: -Werror=incomplete-patterns -Werror=incomplete-uni-patterns" >> cabal.project ; fi
           if [ $((HCNUMVER > 81007)) -ne 0 ] ; then echo "package servant-server" >> cabal.project ; fi
           if [ $((HCNUMVER > 81007)) -ne 0 ] ; then echo "    ghc-options: -Werror=incomplete-patterns -Werror=incomplete-uni-patterns" >> cabal.project ; fi
+          if [ $((HCNUMVER < 81008)) -ne 0 ] ; then echo "package servant" >> cabal.project ; fi
+          if [ $((HCNUMVER < 81008)) -ne 0 ] ; then echo "    ghc-options: -j4" >> cabal.project ; fi
+          if [ $((HCNUMVER < 81008)) -ne 0 ] ; then echo "package servant-client" >> cabal.project ; fi
+          if [ $((HCNUMVER < 81008)) -ne 0 ] ; then echo "    ghc-options: -j4" >> cabal.project ; fi
+          if [ $((HCNUMVER < 81008)) -ne 0 ] ; then echo "package servant-docs" >> cabal.project ; fi
+          if [ $((HCNUMVER < 81008)) -ne 0 ] ; then echo "    ghc-options: -j4" >> cabal.project ; fi
+          if [ $((HCNUMVER < 81008)) -ne 0 ] ; then echo "package servant-server" >> cabal.project ; fi
+          if [ $((HCNUMVER < 81008)) -ne 0 ] ; then echo "    ghc-options: -j4" >> cabal.project ; fi
           cat >> cabal.project <<EOF
           EOF
           if $HEADHACKAGE; then

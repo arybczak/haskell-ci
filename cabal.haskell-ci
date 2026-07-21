@@ -8,7 +8,7 @@ distribution: resolute
 -- list of extra apt packages to be installed
 -- apt: foo bar
 
-jobs: 2:2
+jobs: 4:4
 
 -- This is useful if you want limit jobs beyond tested-with specification,
 -- e.g. while iterating the CI setup itself.

@@ -414,9 +414,9 @@ jobs:
           repository hackage.haskell.org
             url: http://hackage.haskell.org/
           EOF
+          if [ $((! GHCJSARITH && HCNUMVER >= 90800)) -ne 0 ] ; then echo "semaphore: True" >> $CABAL_CONFIG ; fi
           cat >> $CABAL_CONFIG <<EOF
-          program-default-options
-            ghc-options: $GHCJOBS +RTS -M3G -RTS
+          jobs: 4
           EOF
           cat $CABAL_CONFIG
       - name: versions
@@ -467,6 +467,8 @@ jobs:
           if [ $((! GHCJSARITH && HCNUMVER >= 90400)) -ne 0 ] ; then echo "    ghc-options: -Werror=unused-packages" >> cabal.project ; fi
           if [ $((! GHCJSARITH && HCNUMVER >= 90000)) -ne 0 ] ; then echo "package splitmix" >> cabal.project ; fi
           if [ $((! GHCJSARITH && HCNUMVER >= 90000)) -ne 0 ] ; then echo "    ghc-options: -Werror=incomplete-patterns -Werror=incomplete-uni-patterns" >> cabal.project ; fi
+          if [ $((GHCJSARITH || ! GHCJSARITH && HCNUMVER < 90800)) -ne 0 ] ; then echo "package splitmix" >> cabal.project ; fi
+          if [ $((GHCJSARITH || ! GHCJSARITH && HCNUMVER < 90800)) -ne 0 ] ; then echo "    ghc-options: -j4" >> cabal.project ; fi
           cat >> cabal.project <<EOF
           EOF
           $HCPKG list --simple-output --names-only | perl -ne 'for (split /\s+/) { print "constraints: any.$_ installed\n" unless /^(splitmix)$/; }' >> cabal.project.local

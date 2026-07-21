@@ -18,3 +18,9 @@ checkConfigValidity Config {..} _  = do
 
     unless cfgGhcupCabal $
         throwErr $ ValidationError $ "The GHCUP is the only supported installation method for cabal-install"
+
+    -- We rely on the build semaphore, introduced in cabal-install 3.12.
+    case cfgCabalInstallVersion of
+        Just v | v < mkVersion [3,12] ->
+            throwErr $ ValidationError $ "cabal-install " ++ prettyShow v ++ " is not supported, the minimum supported version is 3.12"
+        _ -> pure ()

@@ -35,6 +35,7 @@ main = do
             , fixtureGoldenTest "psql"
             , fixtureGoldenTest "travis-patch"
             , fixtureGoldenTest "enabled-jobs"
+            , fixtureGoldenTest "jobs"
             , fixtureGoldenTest "doctest"
             , fixtureGoldenTest "doctest-version"
             , fixtureGoldenTest "conditionals"

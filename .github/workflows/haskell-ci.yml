@@ -150,13 +150,9 @@ jobs:
           repository hackage.haskell.org
             url: http://hackage.haskell.org/
           EOF
+          if [ $((HCNUMVER >= 90800)) -ne 0 ] ; then echo "semaphore: True" >> $CABAL_CONFIG ; fi
           cat >> $CABAL_CONFIG <<EOF
-          jobs: 2
-          EOF
-          GHCJOBS=-j2
-          cat >> $CABAL_CONFIG <<EOF
-          program-default-options
-            ghc-options: $GHCJOBS +RTS -M3G -RTS
+          jobs: 4
           EOF
           cat $CABAL_CONFIG
       - name: versions
@@ -241,6 +237,10 @@ jobs:
           if [ $((HCNUMVER >= 90000)) -ne 0 ] ; then echo "    ghc-options: -Werror=incomplete-patterns -Werror=incomplete-uni-patterns" >> cabal.project ; fi
           if [ $((HCNUMVER >= 90000)) -ne 0 ] ; then echo "package cabal-install-parsers" >> cabal.project ; fi
           if [ $((HCNUMVER >= 90000)) -ne 0 ] ; then echo "    ghc-options: -Werror=incomplete-patterns -Werror=incomplete-uni-patterns" >> cabal.project ; fi
+          if [ $((HCNUMVER < 90800)) -ne 0 ] ; then echo "package haskell-ci" >> cabal.project ; fi
+          if [ $((HCNUMVER < 90800)) -ne 0 ] ; then echo "    ghc-options: -j4" >> cabal.project ; fi
+          if [ $((HCNUMVER < 90800)) -ne 0 ] ; then echo "package cabal-install-parsers" >> cabal.project ; fi
+          if [ $((HCNUMVER < 90800)) -ne 0 ] ; then echo "    ghc-options: -j4" >> cabal.project ; fi
           cat >> cabal.project <<EOF
           allow-newer: ShellCheck:filepath
 

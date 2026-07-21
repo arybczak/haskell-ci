@@ -31,7 +31,7 @@ data Jobs
     = CabalJobs Int
     | GhcJobs Int
     | BothJobs Int Int
-  deriving (Show)
+  deriving (Eq, Show)
 
 cabalJobs :: Jobs -> Maybe Int
 cabalJobs (CabalJobs n)  = Just n

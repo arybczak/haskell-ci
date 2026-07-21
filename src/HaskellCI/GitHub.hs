@@ -244,20 +244,14 @@ makeGitHub _argv config@Config {..} gitconfig prj jobs@JobVersions {..} = do
                 , "\nfi"
                 ]
 
+            -- Use a GHC job semaphore (shared across packages) when supported.
+            echo_if_to (Range $ C.orLaterVersion (C.mkVersion [9,8])) "$CABAL_CONFIG" "semaphore: True"
+
             -- Cabal jobs
-            for_ (cfgJobs >>= cabalJobs) $ \n ->
+            for_ (cabalJobs cfgJobs) $ \n ->
                 cat "$CABAL_CONFIG" $ unlines
                     [ "jobs: " ++ show n
                     ]
-
-            -- GHC jobs + ghc-options
-            for_ (cfgJobs >>= ghcJobs) $ \m -> do
-                sh_if (Range $ C.orLaterVersion (C.mkVersion [7,8])) $ "GHCJOBS=-j" ++ show m
-
-            cat "$CABAL_CONFIG" $ unlines
-                [ "program-default-options"
-                , "  ghc-options: $GHCJOBS +RTS -M3G -RTS"
-                ]
 
             sh "cat $CABAL_CONFIG"
 
@@ -368,6 +362,17 @@ makeGitHub _argv config@Config {..} gitconfig prj jobs@JobVersions {..} = do
                 let range = Range cfgErrorIncompletePatterns /\ RangePoints pkgJobs
                 echo_if_to range "cabal.project" $ "package " ++ pkgName
                 echo_if_to range "cabal.project" $ "    ghc-options: -Werror=incomplete-patterns -Werror=incomplete-uni-patterns"
+
+            -- GHC jobs: parallel module compilation, applied to local packages
+            -- only. Dependencies are built without it so that building many of
+            -- them in parallel (cabal jobs) doesn't oversubscribe the CPU. For
+            -- GHC >= 9.8 the job semaphore (set in the cabal config) handles
+            -- this, so restrict -j to older compilers.
+            for_ (ghcJobs cfgJobs) $ \m ->
+                for_ pkgs $ \Pkg{pkgName,pkgJobs} -> do
+                    let range = Range (C.earlierVersion (C.mkVersion [9,8])) /\ RangePoints pkgJobs
+                    echo_if_to range "cabal.project" $ "package " ++ pkgName
+                    echo_if_to range "cabal.project" $ "    ghc-options: -j" ++ show m
 
             -- extra cabal.project fields
             cat "cabal.project" $ C.showFields' (const C.NoComment) (const id) 2 $ extraCabalProjectFields "$GITHUB_WORKSPACE/source/"

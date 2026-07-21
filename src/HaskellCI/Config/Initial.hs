@@ -10,6 +10,7 @@ import HaskellCI.Config.Components
 import HaskellCI.Config.CopyFields
 import HaskellCI.Config.Docspec
 import HaskellCI.Config.Doctest
+import HaskellCI.Config.Jobs
 import HaskellCI.Config.PackageScope
 import HaskellCI.Config.Type
 import HaskellCI.Config.Ubuntu
@@ -23,7 +24,7 @@ import HaskellCI.TestedWith
 initialConfig :: Config
 initialConfig = Config
     { cfgCabalInstallVersion = Just (C.mkVersion [3,10,2,0])
-    , cfgJobs                = Nothing
+    , cfgJobs                = BothJobs 4 4
     , cfgUbuntu              = Bionic
     , cfgTestedWith          = TestedWithUniform
     , cfgEnabledJobs         = anyVersion

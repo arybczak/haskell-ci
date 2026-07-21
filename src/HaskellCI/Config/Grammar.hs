@@ -68,7 +68,7 @@ configGrammar
 configGrammar = Config
     <$> optionalFieldDefAla "cabal-install-version"     HeadVersion                         (field @"cfgCabalInstallVersion") defaultConfig
         ^^^ metahelp "VERSION" "cabal-install version for all jobs"
-    <*> optionalField       "jobs"                                                          (field @"cfgJobs")
+    <*> optionalFieldDef    "jobs"                                                          (field @"cfgJobs") defaultConfig
         ^^^ metahelp "JOBS" "jobs (N:M - cabal:ghc)"
     <*> optionalFieldDef    "distribution"                                                  (field @"cfgUbuntu") defaultConfig
         ^^^ metahelp "DIST" (concat

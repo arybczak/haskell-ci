@@ -28,7 +28,7 @@ import HaskellCI.TestedWith
 -- TODO: split other blocks like DoctestConfig
 data Config = Config
     { cfgCabalInstallVersion :: Maybe Version
-    , cfgJobs                :: Maybe Jobs
+    , cfgJobs                :: !Jobs
     , cfgUbuntu              :: !Ubuntu
     , cfgTestedWith          :: !TestedWithJobs
     , cfgEnabledJobs         :: !VersionRange

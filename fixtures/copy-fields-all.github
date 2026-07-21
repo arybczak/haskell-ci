@@ -221,8 +221,7 @@ jobs:
             url: http://hackage.haskell.org/
           EOF
           cat >> $CABAL_CONFIG <<EOF
-          program-default-options
-            ghc-options: $GHCJOBS +RTS -M3G -RTS
+          jobs: 4
           EOF
           cat $CABAL_CONFIG
       - name: versions
@@ -287,6 +286,14 @@ jobs:
           if [ $((HCNUMVER >= 80200)) -ne 0 ] ; then echo "    ghc-options: -Werror=missing-methods -Werror=missing-fields" >> cabal.project ; fi
           if [ $((HCNUMVER >= 80200)) -ne 0 ] ; then echo "package servant-server" >> cabal.project ; fi
           if [ $((HCNUMVER >= 80200)) -ne 0 ] ; then echo "    ghc-options: -Werror=missing-methods -Werror=missing-fields" >> cabal.project ; fi
+          echo "package servant" >> cabal.project
+          echo "    ghc-options: -j4" >> cabal.project
+          echo "package servant-client" >> cabal.project
+          echo "    ghc-options: -j4" >> cabal.project
+          echo "package servant-docs" >> cabal.project
+          echo "    ghc-options: -j4" >> cabal.project
+          echo "package servant-server" >> cabal.project
+          echo "    ghc-options: -j4" >> cabal.project
           cat >> cabal.project <<EOF
           constraints: foundation >= 0.14
           allow-newer: servant-js:servant
