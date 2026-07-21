@@ -87,13 +87,6 @@ githubHeader insertVersion argv =
 -- GitHub
 -------------------------------------------------------------------------------
 
-{-
-GitHub Actions–specific notes:
-
-* We use -j2 for parallelism, as GitHub's virtual machines use 2 cores, per
-  https://docs.github.com/en/free-pro-team@latest/actions/reference/specifications-for-github-hosted-runners#supported-runners-and-hardware-resources.
--}
-
 makeGitHub
     :: [String]
     -> Config
@@ -298,7 +291,7 @@ makeGitHub _argv config@Config {..} gitconfig prj jobs@JobVersions {..} = do
                 | otherwise = " --constraint='doctest " ++ C.prettyShow (cfgDoctestVersion cfgDoctest) ++ "'"
         when doctestEnabled $ githubRun "install doctest" $ do
             let range = Range (cfgDoctestEnabled cfgDoctest) /\ doctestJobVersionRange
-            sh_if range $ "$CABAL --store-dir=$HOME/.haskell-ci-tools/store v2-install $ARG_COMPILER --ignore-project -j2 doctest" ++ doctestVersionConstraint
+            sh_if range $ "$CABAL --store-dir=$HOME/.haskell-ci-tools/store v2-install $ARG_COMPILER --ignore-project doctest" ++ doctestVersionConstraint
             sh_if range "doctest --version"
 
         when (doctestEnabled) $ githubUsesIf "save cache (tools)" actionsCacheSave "always()"
@@ -430,8 +423,8 @@ makeGitHub _argv config@Config {..} gitconfig prj jobs@JobVersions {..} = do
 
         -- install dependencies
         when cfgInstallDeps $ githubRun "install dependencies" $ do
-            sh "$CABAL v2-build $ARG_COMPILER --disable-tests --disable-benchmarks --dependencies-only -j2 all"
-            sh "$CABAL v2-build $ARG_COMPILER $ARG_TESTS $ARG_BENCH --dependencies-only -j2 all"
+            sh "$CABAL v2-build $ARG_COMPILER --disable-tests --disable-benchmarks --dependencies-only all"
+            sh "$CABAL v2-build $ARG_COMPILER $ARG_TESTS $ARG_BENCH --dependencies-only all"
 
         -- build w/o tests benchs
         unless (equivVersionRanges C.noVersion cfgNoTestsNoBench) $ githubRun "build w/o tests" $ do
@@ -520,7 +513,7 @@ makeGitHub _argv config@Config {..} gitconfig prj jobs@JobVersions {..} = do
 
             sh_cs $ "$CABAL v2-build $ARG_COMPILER " ++ allFlags ++ " all --dry-run"
             sh_cs $ "cabal-plan topo | sort"
-            when cfgInstallDeps $ sh_cs $ "$CABAL v2-build $ARG_COMPILER " ++ allFlags ++ " --dependencies-only -j2 all"
+            when cfgInstallDeps $ sh_cs $ "$CABAL v2-build $ARG_COMPILER " ++ allFlags ++ " --dependencies-only all"
             sh_cs $ "$CABAL v2-build $ARG_COMPILER " ++ allFlags ++ " all"
             when (docspecEnabled && csDocspec cs) $
                 sh_cs' docspecRange cabalDocspec

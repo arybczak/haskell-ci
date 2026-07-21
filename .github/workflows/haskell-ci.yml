@@ -188,7 +188,7 @@ jobs:
           cabal-docspec --version
       - name: install doctest
         run: |
-          if [ $((HCNUMVER < 90000)) -ne 0 ] ; then $CABAL --store-dir=$HOME/.haskell-ci-tools/store v2-install $ARG_COMPILER --ignore-project -j2 doctest --constraint='doctest ^>=0.25.0' ; fi
+          if [ $((HCNUMVER < 90000)) -ne 0 ] ; then $CABAL --store-dir=$HOME/.haskell-ci-tools/store v2-install $ARG_COMPILER --ignore-project doctest --constraint='doctest ^>=0.25.0' ; fi
           if [ $((HCNUMVER < 90000)) -ne 0 ] ; then doctest --version ; fi
       - name: save cache (tools)
         if: always()
@@ -270,8 +270,8 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ matrix.compiler }}-
       - name: install dependencies
         run: |
-          $CABAL v2-build $ARG_COMPILER --disable-tests --disable-benchmarks --dependencies-only -j2 all
-          $CABAL v2-build $ARG_COMPILER $ARG_TESTS $ARG_BENCH --dependencies-only -j2 all
+          $CABAL v2-build $ARG_COMPILER --disable-tests --disable-benchmarks --dependencies-only all
+          $CABAL v2-build $ARG_COMPILER $ARG_TESTS $ARG_BENCH --dependencies-only all
       - name: build w/o tests
         run: |
           $CABAL v2-build $ARG_COMPILER --disable-tests --disable-benchmarks all
@@ -312,7 +312,7 @@ jobs:
         run: |
           $CABAL v2-build $ARG_COMPILER --disable-tests --disable-benchmarks --prefer-oldest all --dry-run
           cabal-plan topo | sort
-          $CABAL v2-build $ARG_COMPILER --disable-tests --disable-benchmarks --prefer-oldest --dependencies-only -j2 all
+          $CABAL v2-build $ARG_COMPILER --disable-tests --disable-benchmarks --prefer-oldest --dependencies-only all
           $CABAL v2-build $ARG_COMPILER --disable-tests --disable-benchmarks --prefer-oldest all
       - name: save cache
         if: always()

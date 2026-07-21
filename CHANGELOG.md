@@ -2,6 +2,7 @@
 
 - Add support for GHCup vanilla and prerelease channels (in a more principled way)
 - Default the `jobs` option to `4:4` and enable a shared GHC job semaphore (`semaphore: True`) for GHC >= 9.8. For older GHC the per-module `-j` is applied to local packages only, so that building dependencies in parallel doesn't oversubscribe the CPU. `cabal-install-version` must now be >= 3.12 (the semaphore is relied upon)
+- Stop hardcoding `-j2` in `cabal` invocations. The cabal-level parallelism is now driven solely by the `jobs` setting written to the global cabal config
 - Stop capping GHC's heap at 3G (`+RTS -M3G -RTS`), letting builds use the full runner memory
 
 ## 0.18.1 - 2024-02-25
