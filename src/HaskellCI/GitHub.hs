@@ -121,6 +121,11 @@ makeGitHub _argv config@Config {..} gitconfig prj jobs@JobVersions {..} = do
                     , "git"
                     , "software-properties-common"
                     ] ++
+                    -- libtinfo5 is required by older GHC versions, but it's no
+                    -- longer available starting with Ubuntu 24.04 (Noble).
+                    [ "libtinfo5"
+                    | cfgUbuntu < Noble
+                    ] ++
                     -- Installing libnuma-dev is required to work around
                     -- https://gitlab.haskell.org/haskell/ghcup-hs/-/blob/b0522507be6fa991a819aaf22f9a551757380821/README.md#libnuma-required
                     [ "libnuma-dev"
