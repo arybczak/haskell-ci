@@ -22,8 +22,8 @@ import qualified Distribution.Parsec           as C
 import HaskellCI.Config.ConstraintSet
 import HaskellCI.Config.Empty
 import HaskellCI.Config.Grammar
+import HaskellCI.Config.History
 import HaskellCI.Config.Type
-import HaskellCI.Config.Ubuntu
 import HaskellCI.ParsecUtils
 
 emptyConfig :: Config
@@ -60,10 +60,10 @@ parseConfigFile fields0 = do
             C.parseWarning pos C.PWTUnknownSection $ "Unknown section " ++ fromUTF8BS name
             return id
 
+-- | A monoidal field never sees 'defaultConfig', so the default actions of
+-- @installed@ are prepended to the parsed ones here.
 postprocessConfig :: Config -> Config
-postprocessConfig cfg
-    | cfgUbuntu cfg >= Jammy = cfg
-    | otherwise              = cfg
+postprocessConfig = over (field @"cfgInstalled") (cfgInstalled defaultConfig ++)
 
 -------------------------------------------------------------------------------
 -- From Cabal

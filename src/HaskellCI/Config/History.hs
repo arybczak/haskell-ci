@@ -11,6 +11,7 @@ import qualified Distribution.Version as C
 import qualified Data.Map.Strict as Map
 
 import HaskellCI.Config.Initial
+import HaskellCI.Config.Installed
 import HaskellCI.Config.Type
 import HaskellCI.Config.Ubuntu
 import HaskellCI.SetupMethod
@@ -121,6 +122,8 @@ configHistory =
         & field @"cfgUbuntu" .~ Resolute
     , ver 0 19 20260721 := \cfg -> cfg
         & field @"cfgCabalInstallVersion" ?~ C.mkVersion [3,16,1,0]
+    , ver 0 19 20260916 := \cfg -> cfg
+        & field @"cfgInstalled" .~ [InstalledNone]
     ]
   where
     ver x y z = [x, y, z]
