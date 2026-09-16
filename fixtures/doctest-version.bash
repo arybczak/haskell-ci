@@ -480,7 +480,6 @@ echo_if_to $((GHCJSARITH || ! GHCJSARITH && HCNUMVER >= 80200)) cabal.project "p
 echo_if_to $((GHCJSARITH || ! GHCJSARITH && HCNUMVER >= 80200)) cabal.project "    ghc-options: -Werror=missing-methods"
 cat >> cabal.project <<EOF
 EOF
-$HCPKG list --simple-output --names-only | perl -ne 'for (split /\s+/) { print "constraints: $_ installed\n" unless /^(splitmix)$/; }' >> cabal.project.local
 run_cmd cat cabal.project
 run_cmd cat cabal.project.local
 

@@ -60,6 +60,9 @@ data InstalledNormalised
 -- >>> normaliseInstalled $ parseI ["-all", "+transformers"]
 -- InstalledOnly (fromList [PackageName "transformers"])
 --
+-- >>> normaliseInstalled $ parseI ["-all", "+all", "-Cabal"]
+-- InstalledDiff (fromList [PackageName "Cabal"])
+--
 normaliseInstalled :: [Installed] -> InstalledNormalised
 normaliseInstalled = foldl' f (InstalledDiff S.empty) where
     f :: InstalledNormalised -> Installed -> InstalledNormalised

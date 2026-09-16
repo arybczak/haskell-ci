@@ -47,8 +47,8 @@ haddock: True
 -- builds when less constrained
 -- no-tests-no-bench: True
 
--- By default `installed` constraints are used for packages
--- in global db. We can modify which constraints are used.
+-- By default no `installed` constraints are emitted. `+all` asks for
+-- a constraint per package in the global db, and `-PKG` drops one.
 installed: +all -Cabal -Cabal-syntax -parsec
 
 -- Options for local packages

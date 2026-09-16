@@ -489,7 +489,6 @@ echo_if_to $((HCNUMVER >= 80200)) cabal.project "package servant-server"
 echo_if_to $((HCNUMVER >= 80200)) cabal.project "    ghc-options: -Werror=missing-methods"
 cat >> cabal.project <<EOF
 EOF
-$HCPKG list --simple-output --names-only | perl -ne 'for (split /\s+/) { print "constraints: $_ installed\n" unless /^(servant|servant-client|servant-docs|servant-server)$/; }' >> cabal.project.local
 run_cmd cat cabal.project
 run_cmd cat cabal.project.local
 
